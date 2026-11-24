@@ -1,0 +1,10 @@
+{
+  "time_local": "2026-11-24T19:05:19+08:00",
+  "http_status": {
+    "frontend_home": 200,
+    "frontend_officebench": 200,
+    "backend_swagger_json": 200,
+    "frontend_backend_proxy": 200
+  },
+  "backend_swagger_title": "skillTesting-core"
+}

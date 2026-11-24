@@ -1,0 +1,11 @@
+# 限制提交范围：此目录仅保存本人编写的运行说明与脱敏截图。
+# 切勿将教师项目源码或任何私服、数据库凭据放到仓库中。
+*
+!README.md
+!.gitignore
+!docs/
+!docs/LOCAL_VERIFICATION.md
+!evidence/
+!evidence/http-check.json
+!evidence/backend-swagger.png
+!evidence/frontend-officebench.png
