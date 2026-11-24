@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RSI Skill Platform · 前后端接入检查</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 48px auto; max-width: 820px; padding: 0 24px; color: #172524; }
+    header { font-size: 13px; color: #23715f; font-weight: 700; }
+    h1 { font-size: 28px; }
+    dl { display: grid; grid-template-columns: 150px 1fr; gap: 12px 18px; padding: 24px; border: 1px solid #cbdcd5; border-radius: 6px; background: #f7faf8; }
+    dd { margin: 0; overflow-wrap: anywhere; }
+    code { font-size: 14px; }
+    #status { font-weight: 700; color: #a63936; }
+    small { color: #536963; }
+  </style>
+</head>
+<body>
+  <header>RSI SKILL PLATFORM · 本机接入检查</header>
+  <h1>前端读取后端 API</h1>
+  <p>此页面由前端服务提供。浏览器直接请求同源开发代理，不预填后端返回值。</p>
+  <dl>
+    <dt>前端服务</dt><dd><code id="origin"></code></dd>
+    <dt>后端代理路径</dt><dd><code>/skillTesting-core/v2/api-docs</code></dd>
+    <dt>请求结果</dt><dd id="status">正在读取后端…</dd>
+    <dt>后端服务名</dt><dd><code id="service">待加载</code></dd>
+    <dt>API 版本</dt><dd><code id="version">待加载</code></dd>
+    <dt>实际接口</dt><dd id="paths">待加载</dd>
+  </dl>
+  <small>仅证明本机前端开发代理读取了后端 API 文档；不代表 skill 业务流程已执行。静态导出不包含开发代理。</small>
+  <script>
+    document.getElementById('origin').textContent = location.origin;
+    fetch('/skillTesting-core/v2/api-docs', { cache: 'no-store' })
+      .then(function (response) {
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        return response.json();
+      })
+      .then(function (data) {
+        if (!data.info || data.info.title !== 'skillTesting-core' || !data.paths) throw new Error('后端响应格式不符');
+        document.getElementById('service').textContent = data.info.title;
+        document.getElementById('version').textContent = data.info.version || '未提供';
+        var paths = document.getElementById('paths');
+        paths.replaceChildren();
+        Object.keys(data.paths).forEach(function (path) {
+          var line = document.createElement('div');
+          var code = document.createElement('code');
+          code.textContent = path;
+          line.appendChild(code);
+          paths.appendChild(line);
+        });
+        var status = document.getElementById('status');
+        status.textContent = '成功：浏览器收到后端 JSON';
+        status.style.color = '#16704f';
+      })
+      .catch(function (error) {
+        document.getElementById('status').textContent = '失败：' + error.message;
+      });
+  </script>
+</body>
+</html>

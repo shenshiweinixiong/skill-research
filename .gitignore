@@ -9,3 +9,11 @@
 !evidence/http-check.json
 !evidence/backend-swagger.png
 !evidence/frontend-officebench.png
+!evidence/versions-and-services.png
+!docs/REPRODUCE.md
+!docs/DEPENDENCIES.md
+!scripts/
+!scripts/verify-local.ps1
+!frontend-proof/
+!frontend-proof/integration-check.html
+!frontend-proof/versions-check.html
